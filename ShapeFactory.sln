@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapeFactory", "ShapeFactory\ShapeFactory.csproj", "{5378E33C-F252-43E0-8C1D-4CCB17E5513A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapeFactory.Domain", "ShapeFactory.Domain\ShapeFactory.Domain.csproj", "{BCC650B2-962A-4522-9646-E96CCDDCEC0B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5378E33C-F252-43E0-8C1D-4CCB17E5513A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5378E33C-F252-43E0-8C1D-4CCB17E5513A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5378E33C-F252-43E0-8C1D-4CCB17E5513A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5378E33C-F252-43E0-8C1D-4CCB17E5513A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCC650B2-962A-4522-9646-E96CCDDCEC0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCC650B2-962A-4522-9646-E96CCDDCEC0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCC650B2-962A-4522-9646-E96CCDDCEC0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCC650B2-962A-4522-9646-E96CCDDCEC0B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
