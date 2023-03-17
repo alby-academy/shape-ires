@@ -7,13 +7,13 @@ public class Painter
 {
     private readonly IEnumerable<string> _colors;
     private readonly Faker _faker;
-    
+
     public Painter(Faker faker)
     {
         _faker = faker;
         _colors = new[] { "R", "G", "B" };
     }
-    
+
     public IEnumerable<Shape> Paint(IEnumerable<Shape> shapes)
     {
         foreach (var shape in shapes)
