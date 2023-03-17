@@ -2,10 +2,6 @@
 
 public class Shape
 {
-    public int Id { get; set; }
-    public int Angles { get; set; }
-    public string Color { get; set; }
-
     public Shape(int id = default, int angles = default, string color = default)
     {
         Id = id;
@@ -13,8 +9,9 @@ public class Shape
         Color = color;
     }
 
-    public override string ToString()
-    {
-        return $"Shape: ID = {Id}, Angles = {Angles}, Color = {Color}";
-    }
+    public int Id { get; set; }
+    public int Angles { get; set; }
+    public string Color { get; set; }
+
+    public override string ToString() => $"Shape: ID = {Id}, Angles = {Angles}, Color = {Color}";
 }

@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using ShapeFactory.Domain;
+﻿namespace ShapeFactory;
 
-namespace ShapeFactory
+using Domain;
+
+public class Checker
 {
-    public class Checker
+    public IEnumerable<Shape> Check(IEnumerable<Shape> shapes)
     {
-        public IEnumerable<Shape> Check(IEnumerable<Shape> shapes) 
-	    {
-            foreach (var shape in shapes)
-            {
-                Console.Write($"Check({shape}) => ");
-                if (shape.Color != null)
-                {
-                    Console.WriteLine($"{shape}");
-                    yield return shape;
-                }
-            }
+        foreach (var shape in shapes)
+        {
+            Console.Write($"Check({shape}) => ");
+            if (shape.Color == null) continue;
+
+            Console.WriteLine($"{shape}");
+            yield return shape;
         }
     }
 }

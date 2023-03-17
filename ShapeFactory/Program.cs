@@ -1,7 +1,10 @@
-﻿using ShapeFactory;
+﻿using Bogus;
+using ShapeFactory;
 
-var app = new App(new Provider(), new Painter(),
-                  new Checker(), new Printer());
+Faker faker = new();
+Painter painter = new(faker);
+
+var app = new App(new(), painter, new(), new());
 
 Welcome();
 Console.WriteLine("");
@@ -12,10 +15,7 @@ Console.WriteLine("");
 SeeYouSoon();
 
 
-static void Welcome()
-{
-    Console.WriteLine("Welcome to ShapesApp.");
-}
+static void Welcome() => Console.WriteLine("Welcome to ShapesApp.");
 
 static void Wait()
 {
@@ -24,7 +24,4 @@ static void Wait()
     Console.WriteLine("");
 }
 
-static void SeeYouSoon()
-{
-    Console.WriteLine("See You Soon.");
-}
+static void SeeYouSoon() => Console.WriteLine("See You Soon.");
