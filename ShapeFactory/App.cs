@@ -39,7 +39,7 @@ public class App
             {
                 Work(file);
             }
-            catch
+            catch (Exception e)
             {
                 var failed = _workflow.MoveToFailed(file);
                 if (!failed) Console.WriteLine("Cannot move file {0} to failed folder", file);

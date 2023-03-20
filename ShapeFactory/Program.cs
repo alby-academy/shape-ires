@@ -25,11 +25,10 @@ static void SeeYouSoon() => Console.WriteLine("See You Soon.");
 
 App BuildApp()
 {
-    var options = new Options(@"C:\Training\shape-ires\Files", "working", "completed", "failed", "txt");
+    var options = new Options(@"C:\Training\shape-ires\Files", "working", "completed", "failed", "xlsx");
     var workflow = new Workflow(options);
 
-    const string separator = ",";
-    var reader = new Reader(separator);
+    var reader = new ExcelReader();
     var painter = new Painter(new());
     var checker = new Checker();
     var printer = new Printer();
