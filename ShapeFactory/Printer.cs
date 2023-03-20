@@ -1,11 +1,30 @@
 ﻿namespace ShapeFactory;
 
+using System;
 using Domain;
 
 public class Printer
 {
+    private static void PrintShape(Shape shape)
+    {
+        Console.Write($"Print({shape})");
+        Console.WriteLine($" => {shape.IdToString()} {shape.AnglesToString()} is {shape.ColorToString()}");
+    }
+    
     public void Print(IEnumerable<Shape> shapes)
     {
-        foreach (var shape in shapes) Console.WriteLine(shape.ToString());
+        var enumerator = shapes.GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            PrintShape(enumerator.Current);
+        }
+    }
+
+    public void OtherPrint(IEnumerable<Shape> shapes)
+    {
+        foreach (var shape in shapes)
+        {
+            PrintShape(shape); 
+        }
     }
 }

@@ -15,6 +15,7 @@ public class App
         _painter = painter;
         _checker = checker;
         _printer = printer;
+
         _workflow = workflow;
         _reader = reader;
     }
@@ -23,27 +24,35 @@ public class App
     {
         Console.WriteLine("Run Start");
 
-        _workflow.Infrastructure(new[] { @"working", @"completed" });
-        var moved = _workflow.TryMove("Shapes.txt", "working");
+        _workflow.CreateStructure(); // creates directories: starting, working, ending
 
-        if (!moved)
-        {
-            Console.WriteLine("Error. Please retry later");
-            return;
-        }
+        // moves files from ending to starting (NOT REQUIRED BUT HELPS)
+        _workflow.MoveFirstFileFromEndingToStarting();
+        // _workflow.MoveFilesFromEndingToStarting();
+        var filesInStarting = _workflow.PendingInStarting();
+        // Console.WriteLine(filesInStarting.FirstOrDefault());
 
-        var files = _workflow.Pending("working");
+        // moves files from starting to working (REQUIRED)
+        _workflow.MoveFirstFileFromStartingToWorking();
+        // _workflow.MoveFilesFromStartingToWorking();
+        var filesInWorking = _workflow.PendingInWorking();
+        // Console.WriteLine(filesInWorking.FirstOrDefault());
 
-        var shapes = _reader.Read(files.FirstOrDefault());
+        // work on files!
+        // var shapes = _reader.Read(filesInWorking.FirstOrDefault()); // OLD WAY
+        var shapes = _reader.ReadShapesInFirstFile(filesInWorking);
 
+        // var shapes = Provide();
         shapes = _painter.Paint(shapes);
-
         shapes = _checker.Check(shapes);
-
         _printer.Print(shapes);
 
-        _workflow.TryMove("working\\Shapes.txt", "completed");
 
+        // moves files from working to ending (REQUIRED) 
+        _workflow.MoveFirstFileFromWorkingToEnding();
+        // _workflow.MoveFilesFromWorkingToEnding();
+        var filesInEnding = _workflow.PendingInEnding();
+        // Console.WriteLine(filesInEnding.FirstOrDefault());
 
         Console.WriteLine("Run End");
     }
