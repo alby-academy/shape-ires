@@ -8,10 +8,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Bogus" Version="34.0.2"/>
+        <PackageReference Include="Bogus" Version="34.0.2" />
+        <PackageReference Include="ExcelDataReader" Version="3.6.0" />
+        <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\ShapeFactory.Domain\ShapeFactory.Domain.csproj"/>
+        <ProjectReference Include="..\ShapeFactory.Domain\ShapeFactory.Domain.csproj" />
     </ItemGroup>
 </Project>

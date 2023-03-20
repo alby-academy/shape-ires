@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1705.2
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapeFactory", "ShapeFactory.csproj", "{CE2DC129-AFE9-47A4-9279-CE0946B0BED8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE2DC129-AFE9-47A4-9279-CE0946B0BED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE2DC129-AFE9-47A4-9279-CE0946B0BED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE2DC129-AFE9-47A4-9279-CE0946B0BED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE2DC129-AFE9-47A4-9279-CE0946B0BED8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EEDF18A5-B3DA-4B2E-B07B-84CB6E74DCEB}
+	EndGlobalSection
+EndGlobal

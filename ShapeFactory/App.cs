@@ -1,4 +1,6 @@
-﻿using Bogus;
+﻿using System.IO;
+using Bogus;
+using ExcelDataReader;
 using ShapeFactory.Domain;
 
 namespace ShapeFactory;
@@ -11,9 +13,10 @@ public class App
     private readonly Printer _printer;
     private readonly Provider _provider;
     private readonly Reader _reader;
+    private readonly ExcelReader _excelReader;
     private readonly Workflow _workflow;
 
-    public App(Provider provider, Painter painter, Checker checker, Printer printer, Workflow workflow, Reader reader)
+    public App(Provider provider, Painter painter, Checker checker, Printer printer, Workflow workflow, Reader reader, ExcelReader excelReader)
     {
         _provider = provider;
         _painter = painter;
@@ -21,13 +24,14 @@ public class App
         _printer = printer;
         _workflow = workflow;
         _reader = reader;
+        _excelReader = excelReader;
     }
 
     // (root) "files" --> "working" --> "completed" or "failed" --> repeat until all the files are in completed
     public void Run()
     {
         Console.WriteLine("Run Start");
-        _workflow.Infrastructure(new[] {@"working", @"failed", @"completed" });
+        _workflow.Infrastructure(new[] { @"working", @"failed", @"completed" });
 
         bool successRW = false; // indicates if all files from "files" have been moved to "working"
         bool successWC = false; // indicates if all files from "working" have been moved to "completed"
@@ -42,9 +46,15 @@ public class App
             IEnumerable<string> workingFiles = _workflow.Pending("working");
             foreach (var file in workingFiles)
             {
+                // ************** EXCEPTION IN ExcelReader Read() **************
+                if (file.Equals("/Users/gabrielececutti/Desktop/ShapeFactory/shape-ires/excelFiles/working/.DS_Store"))  
+                {
+                    continue;
+                }
+                // *************************************************************
                 try
                 {
-                    IEnumerable<Shape> shapes = _reader.Read(file);
+                    IEnumerable<Shape> shapes = _excelReader.Read(file);
                     shapes = _painter.Paint(shapes);
                     shapes = _checker.Check(shapes);
                     _printer.Print(shapes);
@@ -70,3 +80,4 @@ public class App
         Console.WriteLine("Run End");
     }
 }
+    

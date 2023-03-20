@@ -1,15 +1,18 @@
 ﻿using Bogus;
 using ShapeFactory;
+using ShapeFactory.Domain;
 
 Faker faker = new();
 Painter painter = new(faker);
 
-const string basePath = @"/Users/gabrielececutti/Desktop/ShapeFactory/shape-ires/files";
-var workflow = new Workflow(basePath);
+//const string basePath = @"/Users/gabrielececutti/Desktop/ShapeFactory/shape-ires/files"; 
+const string basePathFileExcel = @"/Users/gabrielececutti/Desktop/ShapeFactory/shape-ires/excelFiles";
 
+var workflow = new Workflow(basePathFileExcel);
 var reader = new Reader(",");
+var excelReader = new ExcelReader();
 
-var app = new App(new(), painter, new(), new(), workflow, reader);
+var app = new App(new(), painter, new(), new(), workflow, reader, excelReader);
 
 Welcome();
 Console.WriteLine("");
@@ -30,3 +33,5 @@ static void Wait()
 }
 
 static void SeeYouSoon() => Console.WriteLine("See You Soon.");
+
+
