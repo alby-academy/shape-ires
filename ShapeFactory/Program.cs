@@ -1,15 +1,6 @@
-﻿using Bogus;
-using ShapeFactory;
+﻿using ShapeFactory;
 
-Faker faker = new();
-Painter painter = new(faker);
-
-const string basePath = @"C:\Training\facotry-ires\files";
-var workflow = new Workflow(basePath);
-
-var reader = new Reader(",");
-
-var app = new App(new(), painter, new(), new(), workflow, reader);
+var app = new App(new(), new(new()), new(), new(), new(), new());
 
 Welcome();
 Console.WriteLine("");
