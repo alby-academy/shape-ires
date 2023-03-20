@@ -1,25 +1,20 @@
-﻿using System.Collections.Generic;
-using System.IO;
-
-namespace ShapeFactory;
+﻿namespace ShapeFactory;
 
 public class Workflow
 {
     private readonly string _basePath;
     private readonly string[] _directories;
-
-
-    public Workflow(string basePath, string[] directories)
+    
+    private Workflow(string basePath, string[] directories)
     {
         _basePath = basePath;
         _directories = directories;
     }
 
     public Workflow(string basePath) : 
-	       this(basePath, new string[] { "starting", "working", "ending" }) { }
+	       this(basePath, new[] { "starting", "working", "ending" }) { }
 
-    public Workflow() :
-           this(Path.GetFullPath("ShapeFiles"), new string[] { "starting", "working", "ending" }) { }
+    public Workflow() : this(Path.GetFullPath("ShapeFiles"), new[] { "starting", "working", "ending" }) { }
 
 
     public void CreateStructure()
@@ -31,30 +26,25 @@ public class Workflow
     }
 
 
-    public IEnumerable<string> Pending(string directory)
-    {
+    private IEnumerable<string> Pending(string directory) =>
         // Console.WriteLine(Path.Combine(_basePath, directory));
         // Console.WriteLine(Directory.Exists(Path.Combine(_basePath, directory)));
         // foreach (var file in Directory.GetFiles(Path.Combine(_basePath, directory), "*.txt")) Console.WriteLine(file);
-        return Directory.GetFiles(Path.Combine(_basePath, directory), "*.txt");
-    }
+        Directory.GetFiles(Path.Combine(_basePath, directory), "*.txt");
 
     public IEnumerable<string> PendingInStarting() => Pending(_directories[0]);
     public IEnumerable<string> PendingInWorking() => Pending(_directories[1]);
     public IEnumerable<string> PendingInEnding() => Pending(_directories[2]);
 
 
-    public IEnumerable<string> PendingNames(string directory)
-    {
-        return Pending(directory).Select(file => Path.GetFileName(file));
-    }
+    private IEnumerable<string> PendingNames(string directory) => Pending(directory).Select(Path.GetFileName);
 
     public IEnumerable<string> PendingNamesInStarting() => PendingNames(_directories[0]);
     public IEnumerable<string> PendingNamesInWorking() => PendingNames(_directories[1]);
     public IEnumerable<string> PendingNamesInEnding() => PendingNames(_directories[2]);
 
 
-    public bool TryMoveFile(string file, string directory1, string directory2)
+    private bool TryMoveFile(string file, string directory1, string directory2)
     {
         try
         {
@@ -81,28 +71,23 @@ public class Workflow
         return true;
     }
 
-    public void MoveFile(string file, string directory1, string directory2) 
+    private void MoveFile(string file, string directory1, string directory2)
     {
-        if (TryMoveFile(file, directory1, directory2))
-        {
-            Console.WriteLine($"{file} moved from {directory1} to {directory2}.");
-        }
-        else
-        {
-            Console.WriteLine($"{file} not moved from {directory1} to {directory2}, retry later.");
-        }
+        Console.WriteLine(TryMoveFile(file, directory1, directory2) 
+            ? $"{file} moved from {directory1} to {directory2}." 
+            : $"{file} not moved from {directory1} to {directory2}, retry later.");
     }
 
 
-    public void MoveFirstFile(string directory1, string directory2)
+    private void MoveFirstFile(string directory1, string directory2)
     {
         try
         {
-            string first = PendingNames(directory1).First();
+            var first = PendingNames(directory1).First();
             // Console.WriteLine(first);
 	        MoveFile(first, directory1, directory2);
         }
-        catch (Exception ex) when (ex is ArgumentNullException || ex is InvalidOperationException)
+        catch (Exception ex) when (ex is ArgumentNullException or InvalidOperationException)
         {
             Console.WriteLine($"No Pending File");
         }
@@ -113,9 +98,9 @@ public class Workflow
     public void MoveFirstFileFromEndingToStarting() => MoveFirstFile(_directories[2], _directories[0]);
 
 
-    public void MoveFiles(string directory1, string directory2)
+    private void MoveFiles(string directory1, string directory2)
     {
-        foreach (string file in PendingNames(directory1))
+        foreach (var file in PendingNames(directory1))
         {
             MoveFile(file, directory1, directory2);
         }

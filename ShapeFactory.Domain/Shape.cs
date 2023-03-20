@@ -16,66 +16,30 @@ public class Shape
     public override string ToString() => $"Shape: ID = {Id}, Angles = {Angles}, Color = {Color}";
 
 
-    public string IdToString()
-    {
-        return "ID={" + Id + "}";
-    }
+    public string IdToString() => "ID={" + Id + "}";
 
     public string AnglesToString()
     {
-        switch (Angles)
+        return Angles switch
         {
-            case 0:
-                return "CIRCLE";
-            case 4:
-                return "SQUARE";
-            default:
-                return null;
-        }
+            0 => "CIRCLE",
+            4 => "SQUARE",
+            _ => null
+        };
     }
 
     public string ColorToString()
     {
-        switch (Color)
+        return Color switch
         {
-            case "R":
-                return "red";
-            case "G":
-                return "green";
-            case "B":
-                return "blue";
-            default:
-                return null;
-        }
-    }
-    
-
-    public static bool CheckId(int id)
-    {
-        if (id >= 0 || id <= 9)
-        {
-            return true;
-        }
-        return false;
+            "R" => "red",
+            "G" => "green",
+            "B" => "blue",
+            _ => null
+        };
     }
 
-    public static bool CheckAngles(int angles)
-    {
-        if (angles == 0 || angles == 4)
-        {
-            return true;
-        }
-        return true;
-    }
-
-    public static bool CheckColor(string color)
-    {
-        if (color == "R" || color == "G" || color == "B")
-        {
-            return true;
-        }
-        return false;
-    }
+    public static bool CheckColor(string color) => color is "R" or "G" or "B";
 
 
     public static bool CheckStringId(string s)
@@ -85,11 +49,11 @@ public class Shape
         {
             id = int.Parse(s);
         }
-        catch (Exception ex) when (ex is ArgumentException || ex is FormatException || ex is OverflowException)
+        catch (Exception ex) when (ex is ArgumentException or FormatException or OverflowException)
         {
             return false;
         }
-        return CheckId(id);
+        return id is >= 0 or <= 9;
     }
 
     public static bool CheckStringAngles(string s)
@@ -99,10 +63,11 @@ public class Shape
         {
             angles = int.Parse(s);
         }
-        catch (Exception ex) when (ex is ArgumentException || ex is FormatException || ex is OverflowException)
+        catch (Exception ex) when (ex is ArgumentException or FormatException or OverflowException)
         {
             return false;
         }
-        return CheckAngles(angles);
+        
+        return angles == 0 || angles == 4 || true;
     }
 }

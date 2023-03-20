@@ -58,7 +58,7 @@ public class Painter
         foreach (var shape in shapes)
         {
             var color = _faker.PickRandom(_colors);
-            if(color == "R" || color == "G" || color == "B")
+            if(color is "R" or "G" or "B")
             {
                 PaintShape(shape, color);
             }

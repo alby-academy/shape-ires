@@ -1,6 +1,16 @@
-﻿using ShapeFactory;
+﻿using Bogus;
+using ShapeFactory;
 
-var app = new App(new(), new(new()), new(), new(), new(), new());
+var faker = new Faker();
+
+var provider = new Provider();
+var painter = new Painter(faker);
+var checker = new Checker();
+var printer = new Printer();
+var workflow = new Workflow();
+var reader = new Reader();
+
+var app = new App(provider, painter, checker, printer, workflow, reader);
 
 Welcome();
 Console.WriteLine("");

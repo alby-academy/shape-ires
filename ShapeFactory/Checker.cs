@@ -12,24 +12,18 @@ public class Checker
             Console.WriteLine($" => Bad => CONTINUE");
             return false;
         }
-        else 
-        {
-            Console.WriteLine($" => Good => {shape}");
-            return true;
-        }
+
+        Console.WriteLine($" => Good => {shape}");
+        return true;
     }
 
-    public IEnumerable<Shape> Check(IEnumerable<Shape> shapes)
+    public static IEnumerable<Shape> Check(IEnumerable<Shape> shapes)
     {
         foreach (var shape in shapes)
         {
             if (CheckShape(shape))
             {
                 yield return shape;
-            }
-            else 
-            {
-                continue;
             }
         }
     }

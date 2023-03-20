@@ -1,7 +1,6 @@
 ﻿namespace ShapeFactory;
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using Domain;
 
@@ -9,15 +8,9 @@ public class Reader
 {
     private readonly string _separator;
 
-    public Reader(string separator)
-    {
-        _separator = separator;
-    }
-
-    public Reader() :
-           this(",") { }
-
-
+    private Reader(string separator) => _separator = separator;
+    public Reader() : this(",") { }
+    
     public IEnumerable<Shape> Read(string path)
     {
         var lines = File.ReadAllLines(path);
@@ -29,7 +22,7 @@ public class Reader
         }
     }
 
-    public IEnumerable<Shape> ReadShapesInFile(string file)
+    private IEnumerable<Shape> ReadShapesInFile(string file)
     {
         Console.WriteLine($"Try Reading File: {file}");
         
@@ -49,22 +42,12 @@ public class Reader
         foreach (var line in lines)
         {
             var rawShape = line.Split(_separator);
-            if(rawShape.Length >= 2 || rawShape.Length <= 3)
+            if(rawShape.Length is >= 2 or <= 3)
             {
                 if (Shape.CheckStringId(rawShape[0]) && Shape.CheckStringId(rawShape[1]))
                 {
                     yield return new(int.Parse(rawShape[0]), int.Parse(rawShape[1]));
                 }
-                else
-                {
-                    continue;
-                    // yield return new();
-                }
-            }
-            else
-            {
-                continue;
-                // yield return new();
             }
         }
     }
@@ -88,11 +71,7 @@ public class Reader
                 {
                     yield return new(int.Parse(rawShape[0]), int.Parse(rawShape[1]));
                 }
-                else
-                {
-                    continue;
-                    // yield return new();
-                }
+                // yield return new();
             }
         }
     }

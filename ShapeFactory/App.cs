@@ -44,7 +44,7 @@ public class App
 
         // var shapes = Provide();
         shapes = _painter.Paint(shapes);
-        shapes = _checker.Check(shapes);
+        shapes = Checker.Check(shapes);
         _printer.Print(shapes);
 
 
