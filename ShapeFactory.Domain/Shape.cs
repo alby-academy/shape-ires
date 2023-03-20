@@ -14,8 +14,7 @@ public class Shape
     }
 
     public override string ToString() => $"Shape: ID = {Id}, Angles = {Angles}, Color = {Color}";
-
-
+    
     public string IdToString() => "ID={" + Id + "}";
 
     public string AnglesToString()
@@ -39,9 +38,6 @@ public class Shape
         };
     }
 
-    public static bool CheckColor(string color) => color is "R" or "G" or "B";
-
-
     public static bool CheckStringId(string s)
     {
         int id;
@@ -54,20 +50,5 @@ public class Shape
             return false;
         }
         return id is >= 0 or <= 9;
-    }
-
-    public static bool CheckStringAngles(string s)
-    {
-        int angles;
-        try
-        {
-            angles = int.Parse(s);
-        }
-        catch (Exception ex) when (ex is ArgumentException or FormatException or OverflowException)
-        {
-            return false;
-        }
-        
-        return angles == 0 || angles == 4 || true;
     }
 }

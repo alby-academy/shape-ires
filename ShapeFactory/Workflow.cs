@@ -11,11 +11,7 @@ public class Workflow
         _directories = directories;
     }
 
-    public Workflow(string basePath) : 
-	       this(basePath, new[] { "starting", "working", "ending" }) { }
-
     public Workflow() : this(Path.GetFullPath("ShapeFiles"), new[] { "starting", "working", "ending" }) { }
-
 
     public void CreateStructure()
     {
@@ -24,8 +20,7 @@ public class Workflow
             Directory.CreateDirectory(Path.Combine(_basePath, directory));
         }
     }
-
-
+    
     private IEnumerable<string> Pending(string directory) =>
         // Console.WriteLine(Path.Combine(_basePath, directory));
         // Console.WriteLine(Directory.Exists(Path.Combine(_basePath, directory)));
@@ -38,12 +33,7 @@ public class Workflow
 
 
     private IEnumerable<string> PendingNames(string directory) => Pending(directory).Select(Path.GetFileName);
-
-    public IEnumerable<string> PendingNamesInStarting() => PendingNames(_directories[0]);
-    public IEnumerable<string> PendingNamesInWorking() => PendingNames(_directories[1]);
-    public IEnumerable<string> PendingNamesInEnding() => PendingNames(_directories[2]);
-
-
+    
     private bool TryMoveFile(string file, string directory1, string directory2)
     {
         try
@@ -84,7 +74,6 @@ public class Workflow
         try
         {
             var first = PendingNames(directory1).First();
-            // Console.WriteLine(first);
 	        MoveFile(first, directory1, directory2);
         }
         catch (Exception ex) when (ex is ArgumentNullException or InvalidOperationException)
@@ -96,18 +85,4 @@ public class Workflow
     public void MoveFirstFileFromStartingToWorking() => MoveFirstFile(_directories[0], _directories[1]);
     public void MoveFirstFileFromWorkingToEnding() => MoveFirstFile(_directories[1], _directories[2]);
     public void MoveFirstFileFromEndingToStarting() => MoveFirstFile(_directories[2], _directories[0]);
-
-
-    private void MoveFiles(string directory1, string directory2)
-    {
-        foreach (var file in PendingNames(directory1))
-        {
-            MoveFile(file, directory1, directory2);
-        }
-    }
-
-    public void MoveFilesFromStartingToWorking() => MoveFiles(_directories[0], _directories[1]);
-    public void MoveFilesFromWorkingToEnding() => MoveFiles(_directories[1], _directories[2]);
-    public void MoveFilesFromEndingToStarting() => MoveFiles(_directories[2], _directories[0]);
-
 }

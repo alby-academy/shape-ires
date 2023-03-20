@@ -19,12 +19,4 @@ public class Printer
             PrintShape(enumerator.Current);
         }
     }
-
-    public void OtherPrint(IEnumerable<Shape> shapes)
-    {
-        foreach (var shape in shapes)
-        {
-            PrintShape(shape); 
-        }
-    }
 }

@@ -57,22 +57,4 @@ public class Reader
         Console.WriteLine($"Try Reading First File");
         return ReadShapesInFile(files.FirstOrDefault());
     }
-
-
-    // DO NOT WORK, PLEASE DO NOT USE IT. IF YOU CAN MADE IT WORK!
-    public IEnumerable<Shape> ReadShapesInFiles(IEnumerable<string> files)
-    {
-        foreach (var file in files)
-        {
-            foreach (var line in File.ReadAllLines(file))
-            {
-                var rawShape = line.Split(_separator);
-                if (Shape.CheckStringId(rawShape[0]) && Shape.CheckStringId(rawShape[1]))
-                {
-                    yield return new(int.Parse(rawShape[0]), int.Parse(rawShape[1]));
-                }
-                // yield return new();
-            }
-        }
-    }
 }
