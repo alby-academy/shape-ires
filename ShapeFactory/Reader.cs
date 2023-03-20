@@ -31,15 +31,35 @@ public class Reader
 
     public IEnumerable<Shape> ReadShapesInFile(string file)
     {
-        Console.WriteLine($"Reading File: {file}");
-        var lines = File.ReadAllLines(file);
+        Console.WriteLine($"Try Reading File: {file}");
+        
+        string[] lines;
+        try 
+        {
+            lines = File.ReadAllLines(file);
+            Console.WriteLine($"Reading File");
+        } 
+        catch(Exception ex)
+        {
+            lines = new[] { "" };
+            Console.WriteLine("Cannot Read File");
+            // Console.WriteLine($"Error: {ex}");
+        }
 
         foreach (var line in lines)
         {
             var rawShape = line.Split(_separator);
-            if (Shape.CheckStringId(rawShape[0]) && Shape.CheckStringId(rawShape[1]))
+            if(rawShape.Length >= 2 || rawShape.Length <= 3)
             {
-                yield return new(int.Parse(rawShape[0]), int.Parse(rawShape[1]));
+                if (Shape.CheckStringId(rawShape[0]) && Shape.CheckStringId(rawShape[1]))
+                {
+                    yield return new(int.Parse(rawShape[0]), int.Parse(rawShape[1]));
+                }
+                else
+                {
+                    continue;
+                    // yield return new();
+                }
             }
             else
             {
@@ -51,8 +71,8 @@ public class Reader
 
     public IEnumerable<Shape> ReadShapesInFirstFile(IEnumerable<string> files)
     {
-        Console.WriteLine($"Reading First File");
-        return ReadShapesInFile(files.First());
+        Console.WriteLine($"Try Reading First File");
+        return ReadShapesInFile(files.FirstOrDefault());
     }
 
 

@@ -16,7 +16,7 @@ static void Welcome() => Console.WriteLine("Welcome to ShapesApp.");
 static void Wait()
 {
     Console.WriteLine("Waiting Input.");
-    Console.ReadKey();
+    Console.ReadLine();
     Console.WriteLine("");
 }
 
