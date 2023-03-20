@@ -11,43 +11,117 @@ public class Painter
     public Painter(Faker faker)
     {
         _faker = faker;
-        _colors = new[] { "R", "G", "B" };
+        _colors = new[] { "R", "G", "B", "NO COLOR" };
+    }
+
+    private static void PaintShape(Shape shape, string color) 
+    {
+        Console.Write($"Paint({shape})");
+        shape.Color = color;
+        Console.WriteLine($" => {shape}");
+    }
+
+    private static void NoPaintShape(Shape shape)
+    {
+        Console.Write($"Paint({shape})");
+        Console.WriteLine($" => NOT PAINTED");
     }
 
     public IEnumerable<Shape> Paint(IEnumerable<Shape> shapes)
     {
         foreach (var shape in shapes)
         {
-            shape.Color = _faker.PickRandom(_colors).OrNull(_faker, .2f);
-            Console.WriteLine($"Paint({shape}) => {shape}");
-            yield return shape;
+            switch (_faker.PickRandom(_colors))
+            {
+                case "R":
+                    PaintShape(shape, "R");
+                    yield return shape;
+                    break;
+                case "G":
+                    PaintShape(shape, "G");
+                    yield return shape;
+                    break;
+                case "B":
+                    PaintShape(shape, "B");
+                    yield return shape;
+                    break;
+                default:
+                    NoPaintShape(shape);
+                    yield return shape;
+                    break;
+            }
         }
     }
 
     public IEnumerable<Shape> OtherPaint(IEnumerable<Shape> shapes)
     {
-        var random = new Random();
+        foreach (var shape in shapes)
+        {
+            var color = _faker.PickRandom(_colors);
+            if(color == "R" || color == "G" || color == "B")
+            {
+                PaintShape(shape, color);
+            }
+            else
+            {
+                NoPaintShape(shape);
+            }
+            yield return shape;
+        }
+    }
 
-        var enumerator = shapes.GetEnumerator();
-        while (enumerator.MoveNext())
+    public IEnumerable<Shape> PaintWithRandom(IEnumerable<Shape> shapes)
+    {
+        var random = new Random();
+        foreach (var shape in shapes)
+        {
             switch (random.Next(0, 4))
             {
                 case 1:
-                    enumerator.Current.Color = "R";
+                    PaintShape(shape, "R");
+                    yield return shape;
+                    break;
+                case 2:
+                    PaintShape(shape, "G");
+                    yield return shape;
+                    break;
+                case 3:
+                    PaintShape(shape, "B");
+                    yield return shape;
+                    break;
+                default:
+                    NoPaintShape(shape);
+                    yield return shape;
+                    break;
+            }
+        }
+    }
+
+    public IEnumerable<Shape> OtherPaintWithRandom(IEnumerable<Shape> shapes)
+    {
+        var random = new Random();
+        var enumerator = shapes.GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            switch (random.Next(0, 4))
+            {
+                case 1:
+                    PaintShape(enumerator.Current, "R");
                     yield return enumerator.Current;
                     break;
                 case 2:
-                    enumerator.Current.Color = "G";
+                    PaintShape(enumerator.Current, "G");
                     yield return enumerator.Current;
                     break;
                 case 3:
-                    enumerator.Current.Color = "B";
+                    PaintShape(enumerator.Current, "B");
                     yield return enumerator.Current;
                     break;
                 default:
-                    // enumerator.Current.Color = null;
+                    NoPaintShape(enumerator.Current);
                     yield return enumerator.Current;
                     break;
             }
+        }
     }
 }
