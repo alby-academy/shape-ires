@@ -8,13 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Bogus" Version="34.0.2" />
+        <PackageReference Include="Bogus" Version="34.0.2"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\ShapeFactory.Domain\ShapeFactory.Domain.csproj" />
+        <ProjectReference Include="..\ShapeFactory.Domain\ShapeFactory.Domain.csproj"/>
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="Bogus" Version="34.0.2" />
+        <PackageReference Include="Bogus" Version="34.0.2"/>
     </ItemGroup>
 </Project>

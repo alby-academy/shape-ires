@@ -1,62 +1,60 @@
 ﻿namespace ShapeFactory;
 
+using Abstract;
 using Core;
-using Readers;
 
 public class App
 {
     private readonly Checker _checker;
     private readonly Painter _painter;
     private readonly Printer _printer;
-    private readonly Provider _provider;
-    private readonly Reader _reader;
-    private readonly Workflow.Workflow _workflow;
+    private readonly IReader _reader;
+    private readonly Workflow _workflow;
 
-    public App(Provider provider, Painter painter, Checker checker, Printer printer, Workflow.Workflow workflow, Reader reader)
+    public App(Workflow workflow, IReader reader, Painter painter, Checker checker, Printer printer)
     {
-        _provider = provider;
+        _workflow = workflow;
+
+        _reader = reader;
         _painter = painter;
         _checker = checker;
         _printer = printer;
-
-        _workflow = workflow;
-        _reader = reader;
     }
 
     public void Run()
     {
-        Console.WriteLine("Run Start");
+        Console.WriteLine("App Start");
 
-        _workflow.CreateStructure(); // creates directories: starting, working, ending
+        _workflow.Infrastructure();
+        var result = _workflow.MoveToWorking();
+        if (!result)
+        {
+            Console.WriteLine("An error occured during the file movement");
+            return;
+        }
 
-        // moves files from ending to starting (NOT REQUIRED BUT HELPS)
-        _workflow.MoveFirstFileFromEndingToStarting();
-        // _workflow.MoveFilesFromEndingToStarting();
-        var filesInStarting = _workflow.PendingInStarting();
-        // Console.WriteLine(filesInStarting.FirstOrDefault());
+        foreach (var file in _workflow.Pending())
+        {
+            try
+            {
+                Work(file);
+            }
+            catch
+            {
+                var failed = _workflow.MoveToFailed(file);
+                if (!failed) Console.WriteLine("Cannot move file {0} to failed folder", file);
+            }
 
-        // moves files from starting to working (REQUIRED)
-        _workflow.MoveFirstFileFromStartingToWorking();
-        // _workflow.MoveFilesFromStartingToWorking();
-        var filesInWorking = _workflow.PendingInWorking();
-        // Console.WriteLine(filesInWorking.FirstOrDefault());
+            var completed = _workflow.MoveToCompleted(file);
+            if (!completed) Console.WriteLine("Cannot move to completed {0} folder", file);
+        }
+    }
 
-        // work on files!
-        // var shapes = _reader.Read(filesInWorking.FirstOrDefault()); // OLD WAY
-        var shapes = _reader.ReadShapesInFirstFile(filesInWorking);
-
-        // var shapes = Provide();
-        shapes = _painter.Paint(shapes);
-        shapes = Checker.Check(shapes);
-        _printer.Print(shapes);
-
-
-        // moves files from working to ending (REQUIRED) 
-        _workflow.MoveFirstFileFromWorkingToEnding();
-        // _workflow.MoveFilesFromWorkingToEnding();
-        var filesInEnding = _workflow.PendingInEnding();
-        // Console.WriteLine(filesInEnding.FirstOrDefault());
-
-        Console.WriteLine("Run End");
+    private void Work(string file)
+    {
+        var shapes = _reader.Read(file);
+        var painted = _painter.Paint(shapes);
+        var @checked = _checker.Check(painted);
+        _printer.Print(@checked);
     }
 }

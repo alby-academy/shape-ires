@@ -1,36 +1,38 @@
-﻿using Bogus;
-using ShapeFactory;
+﻿using ShapeFactory;
 using ShapeFactory.Core;
-using ShapeFactory.Readers;
-using ShapeFactory.Workflow;
-
-var faker = new Faker();
-
-var provider = new Provider();
-var painter = new Painter(faker);
-var checker = new Checker();
-var printer = new Printer();
-var workflow = new Workflow();
-var reader = new Reader();
-
-var app = new App(provider, painter, checker, printer, workflow, reader);
 
 Welcome();
-Console.WriteLine("");
-app.Run();
-Console.WriteLine("");
+BuildApp().Run();
 Wait();
-Console.WriteLine("");
 SeeYouSoon();
 
+await Task.Delay(4000);
 
-static void Welcome() => Console.WriteLine("Welcome to ShapesApp.");
+static void Welcome()
+{
+    Console.WriteLine("Welcome to ShapesApp.");
+    Console.WriteLine();
+}
 
 static void Wait()
 {
     Console.WriteLine("Waiting Input.");
     Console.ReadLine();
-    Console.WriteLine("");
+    Console.WriteLine();
 }
 
 static void SeeYouSoon() => Console.WriteLine("See You Soon.");
+
+App BuildApp()
+{
+    var options = new Options(@"C:\Training\shape-ires\Files", "working", "completed", "failed", "txt");
+    var workflow = new Workflow(options);
+
+    const string separator = ",";
+    var reader = new Reader(separator);
+    var painter = new Painter(new());
+    var checker = new Checker();
+    var printer = new Printer();
+
+    return new(workflow, reader, painter, checker, printer);
+}
