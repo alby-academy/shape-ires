@@ -1,8 +1,9 @@
 ﻿namespace ShapeFactory.Core;
 
+using Abstract;
 using Domain;
 
-public class Printer
+public class Printer : IPrinter
 {
     public void Print(IEnumerable<Shape> shapes)
     {

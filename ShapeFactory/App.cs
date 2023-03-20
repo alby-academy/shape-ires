@@ -7,11 +7,11 @@ public class App
 {
     private readonly Checker _checker;
     private readonly Painter _painter;
-    private readonly Printer _printer;
+    private readonly IPrinter _printer;
     private readonly IReader _reader;
     private readonly Workflow _workflow;
 
-    public App(Workflow workflow, IReader reader, Painter painter, Checker checker, Printer printer)
+    public App(Workflow workflow, IReader reader, Painter painter, Checker checker, IPrinter printer)
     {
         _workflow = workflow;
 
