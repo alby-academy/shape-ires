@@ -1,5 +1,8 @@
 ﻿using Bogus;
 using ShapeFactory;
+using ShapeFactory.Core;
+using ShapeFactory.Readers;
+using ShapeFactory.Workflow;
 
 var faker = new Faker();
 

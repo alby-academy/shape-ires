@@ -1,4 +1,4 @@
-﻿namespace ShapeFactory;
+﻿namespace ShapeFactory.Core;
 
 using Domain;
 

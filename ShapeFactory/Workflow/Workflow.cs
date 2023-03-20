@@ -1,4 +1,4 @@
-﻿namespace ShapeFactory;
+﻿namespace ShapeFactory.Workflow;
 
 public class Workflow
 {

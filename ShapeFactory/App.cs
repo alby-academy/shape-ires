@@ -1,5 +1,8 @@
 ﻿namespace ShapeFactory;
 
+using Core;
+using Readers;
+
 public class App
 {
     private readonly Checker _checker;
@@ -7,9 +10,9 @@ public class App
     private readonly Printer _printer;
     private readonly Provider _provider;
     private readonly Reader _reader;
-    private readonly Workflow _workflow;
+    private readonly Workflow.Workflow _workflow;
 
-    public App(Provider provider, Painter painter, Checker checker, Printer printer, Workflow workflow, Reader reader)
+    public App(Provider provider, Painter painter, Checker checker, Printer printer, Workflow.Workflow workflow, Reader reader)
     {
         _provider = provider;
         _painter = painter;

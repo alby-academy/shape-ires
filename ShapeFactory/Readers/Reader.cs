@@ -1,4 +1,4 @@
-﻿namespace ShapeFactory;
+﻿namespace ShapeFactory.Readers;
 
 using System.Collections.Generic;
 using System.IO;
