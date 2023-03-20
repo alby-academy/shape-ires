@@ -1,7 +1,11 @@
-﻿namespace ShapeFactory;
+﻿using Bogus;
+using ShapeFactory.Domain;
+
+namespace ShapeFactory;
 
 public class App
 {
+    private static Random random = new Random();
     private readonly Checker _checker;
     private readonly Painter _painter;
     private readonly Printer _printer;
@@ -19,32 +23,50 @@ public class App
         _reader = reader;
     }
 
+    // (root) "files" --> "working" --> "completed" or "failed" --> repeat until all the files are in completed
     public void Run()
     {
         Console.WriteLine("Run Start");
+        _workflow.Infrastructure(new[] {@"working", @"failed", @"completed" });
 
-        _workflow.Infrastructure(new[] { @"working", @"completed" });
-        var moved = _workflow.TryMove("Shapes.txt", "working");
-
-        if (!moved)
+        bool successRW = false; // indicates if all files from "files" have been moved to "working"
+        bool successWC = false; // indicates if all files from "working" have been moved to "completed"
+        bool successFW = false; // indicates if all files from "failed" have been moved to "working"
+        do
         {
-            Console.WriteLine("Error. Please retry later");
-            return;
-        }
+            // files --> working
+            IEnumerable<string> rootFiles = Directory.GetFiles(_workflow.GetBasePath());
+            successRW = _workflow.MoveFilesToDestination(rootFiles, "working");
 
-        var files = _workflow.Pending("working");
+            // execution
+            IEnumerable<string> workingFiles = _workflow.Pending("working");
+            foreach (var file in workingFiles)
+            {
+                try
+                {
+                    IEnumerable<Shape> shapes = _reader.Read(file);
+                    shapes = _painter.Paint(shapes);
+                    shapes = _checker.Check(shapes);
+                    _printer.Print(shapes);
+                }
+                catch (ArgumentNullException e)
+                {
+                    Console.WriteLine("Error. Please retry later");
+                }
+            }
 
-        var shapes = _reader.Read(files.FirstOrDefault());
+            // working --> completed / failed
+            successWC = _workflow.RandomMoveFilesToDestination(workingFiles, "completed");
+            if (!successWC)
+            {
+                _workflow.MoveFilesToDestination(workingFiles, "failed");
+            }
 
-        shapes = _painter.Paint(shapes);
+            //failed --> working
+            IEnumerable<string> failedFiles = _workflow.Pending("failed");
+            successFW = _workflow.MoveFilesToDestination(failedFiles, "working");
 
-        shapes = _checker.Check(shapes);
-
-        _printer.Print(shapes);
-
-        _workflow.TryMove("working\\Shapes.txt", "completed");
-
-
+        } while (!successRW || !successWC || !successFW);
         Console.WriteLine("Run End");
     }
 }

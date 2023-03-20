@@ -4,7 +4,7 @@ using ShapeFactory;
 Faker faker = new();
 Painter painter = new(faker);
 
-const string basePath = @"C:\Training\facotry-ires\files";
+const string basePath = @"/Users/gabrielececutti/Desktop/ShapeFactory/shape-ires/files";
 var workflow = new Workflow(basePath);
 
 var reader = new Reader(",");
@@ -13,7 +13,7 @@ var app = new App(new(), painter, new(), new(), workflow, reader);
 
 Welcome();
 Console.WriteLine("");
-app.Run();
+app.Run();  // (root) files --> working --> completed / failed --> repeat until root and failed are empty
 Console.WriteLine("");
 Wait();
 Console.WriteLine("");

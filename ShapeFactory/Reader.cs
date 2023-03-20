@@ -10,7 +10,7 @@ public class Reader
 
     public IEnumerable<Shape> Read(string path)
     {
-        var lines = File.ReadAllLines(path);
+         var lines = File.ReadAllLines(path);
 
         foreach (var line in lines.Skip(1))
         {
