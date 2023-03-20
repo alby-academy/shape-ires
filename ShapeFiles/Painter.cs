@@ -14,11 +14,6 @@ public class Painter
         _colors = new[] { "R", "G", "B" };
     }
 
-<<<<<<< Updated upstream
-=======
-    public Painter() { }
-    
->>>>>>> Stashed changes
     public IEnumerable<Shape> Paint(IEnumerable<Shape> shapes)
     {
         foreach (var shape in shapes)

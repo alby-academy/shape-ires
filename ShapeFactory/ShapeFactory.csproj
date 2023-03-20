@@ -14,4 +14,7 @@
     <ItemGroup>
         <ProjectReference Include="..\ShapeFactory.Domain\ShapeFactory.Domain.csproj"/>
     </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="Bogus" Version="34.0.2" />
+    </ItemGroup>
 </Project>
