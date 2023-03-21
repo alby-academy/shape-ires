@@ -56,5 +56,6 @@ public class App
         var painted = _painter.Paint(shapes);
         var @checked = _checker.Check(painted);
         _printer.Print(@checked);
+        _printer.Dispose();
     }
 }

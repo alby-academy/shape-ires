@@ -25,4 +25,8 @@ public class Printer : IPrinter
             Console.WriteLine("===========================================");
         }
     }
+
+    public void Dispose()
+    {
+    }
 }

@@ -2,7 +2,7 @@
 
 using Domain;
 
-public interface IPrinter
+public interface IPrinter : IDisposable
 {
     public void Print(IEnumerable<Shape> shapes);
 }
