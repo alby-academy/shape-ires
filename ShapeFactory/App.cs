@@ -5,20 +5,20 @@ using Core;
 
 public class App
 {
+    private readonly string _basePath;
     private readonly Checker _checker;
     private readonly Painter _painter;
-    private readonly IPrinter _printer;
     private readonly IReader _reader;
     private readonly Workflow _workflow;
 
-    public App(Workflow workflow, IReader reader, Painter painter, Checker checker, IPrinter printer)
+    public App(Workflow workflow, IReader reader, Painter painter, Checker checker, string basePath)
     {
         _workflow = workflow;
 
         _reader = reader;
         _painter = painter;
         _checker = checker;
-        _printer = printer;
+        _basePath = basePath;
     }
 
     public void Run()
@@ -55,7 +55,8 @@ public class App
         var shapes = _reader.Read(file);
         var painted = _painter.Paint(shapes);
         var @checked = _checker.Check(painted);
-        _printer.Print(@checked);
-        _printer.Dispose();
+
+        using var printer = new ExcelPrinter(_basePath);
+        printer.Print(@checked);
     }
 }

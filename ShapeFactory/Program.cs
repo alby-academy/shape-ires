@@ -32,7 +32,6 @@ App BuildApp()
     var reader = new ExcelReader();
     var painter = new Painter(new());
     var checker = new Checker();
-    var printer = new ExcelPrinter(basePath);
 
-    return new(workflow, reader, painter, checker, printer);
+    return new(workflow, reader, painter, checker, basePath);
 }
